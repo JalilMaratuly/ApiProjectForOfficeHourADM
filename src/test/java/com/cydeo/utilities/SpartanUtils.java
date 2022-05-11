@@ -43,4 +43,16 @@ public class SpartanUtils {
                 .and()
                 .pathParam("id", postSpartanId);
     }
+
+
+    public static RequestSpecification putSpartan(String username, String password, Spartan spartan, int postSpartanId) {
+        return login(username, password)
+                .pathParam("id", postSpartanId)
+                .body(spartan);
+    }
+
+    public static RequestSpecification deleteSpartan(String username, String password, int postSpartanId) {
+        return login(username, password)
+                .pathParam("id", postSpartanId);
+    }
 }

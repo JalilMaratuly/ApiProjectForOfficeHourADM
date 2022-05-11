@@ -45,6 +45,7 @@ public class SpartanFlow extends SpartanTestBaseAuth {
         postSpartanGeder = jsonPath.getString("data.gender");
         postSpartanPhone = jsonPath.getLong("data.phone");
         System.out.println("postSpartanId = " + postSpartanId);
+        System.out.println("post spartan = " + spartan);
     }
 
 
@@ -60,6 +61,7 @@ public class SpartanFlow extends SpartanTestBaseAuth {
                 .contentType(ContentType.JSON)
                 .extract().jsonPath();
 
+        System.out.println("get Spartan = " + jsonPath.getJsonObject("").toString());
         int getSpartanId = jsonPath.getInt("id");
         System.out.println("getSpartanId = " + getSpartanId);
         String getSpartanName = jsonPath.getString("name");
@@ -76,9 +78,44 @@ public class SpartanFlow extends SpartanTestBaseAuth {
 
 
     //put spartan
+    @Order(3)
+    @Test
+    public void putSpartan() {
+        Spartan spartan = SpartanUtils.createSpartan();
+        SpartanUtils.putSpartan("admin", "admin", spartan, postSpartanId)
+                .and()
+                .put("/spartans/{id}")
+                .then()
+                .statusCode(204);
+
+    }
+
+    @Order(4)
+    //get spartan
+    @Test
+    public void getSpartanAfterPut() {
+        JsonPath jsonPath = SpartanUtils.getSpartan("admin", "admin", postSpartanId)
+                .log().uri()
+                .get("/spartans/{id}")
+                .then()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+                .extract().jsonPath();
+
+        System.out.println("get Spartan after put = " + jsonPath.getJsonObject("").toString());
+        int getSpartanId = jsonPath.getInt("id");
+        System.out.println("getSpartanId = " + getSpartanId);
+
+    }
 
 
     //delete spartan
-
-
+    @Order(5)
+    @Test
+    public void deleteSpartan() {
+        SpartanUtils.deleteSpartan("admin", "admin", postSpartanId)
+                .delete("/spartans/{id}")
+                .then()
+                .statusCode(204);
+    }
 }
