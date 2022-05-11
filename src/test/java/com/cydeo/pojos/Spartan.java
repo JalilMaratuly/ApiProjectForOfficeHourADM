@@ -1,10 +1,12 @@
 package com.cydeo.pojos;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 @JsonIgnoreProperties(ignoreUnknown = true, value = {"id"}, allowSetters = true)
 @Builder
+@AllArgsConstructor
 public class Spartan {
 
     // to create pojo
